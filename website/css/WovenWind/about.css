@@ -1,0 +1,43 @@
+.intro-header {
+    padding-top: 100px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 50px;
+    color: black ;
+    text-align: left;
+    font-weight: bold;
+   	font-family: 'Shift', sans-serif; 
+   
+}
+.container p{ 
+	color #fff; 
+	font-size: 20px; 
+	text-align:left;
+}
+.content-section-a{ 
+	background-color: #f7f7f7; 
+}
+
+.content-section-a h1{ 
+	font-size: 26px; 
+}
+.content-section-a p{ 
+    font-size: 12px; 
+}
+
+
+.content-section-c { 
+	background-color: #f7f7f7; 
+}
+
+.content-section-c h1{ 
+	font-size: 26px; 
+}
+
+.content-section-c h3{ 
+	font-size: 20px; 
+}
+.content-section-c p{ 
+    font-size: 12px; 
+}
+.bottom { 
+	background-color: #f7f7f7;
+}
