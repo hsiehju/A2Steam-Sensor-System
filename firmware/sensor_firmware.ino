@@ -3,9 +3,8 @@
 //////////////////////////////////////////////////////////////
 
 // BlueLab: Woven Wind
-// 2014-2015
 // A2Steam Wind Turbine Sensor Code and Server Push
-// Last Edit: March 4th, 2015
+// Last Edit: June 6th, 2017
 // Created by: Justin Hsieh, Genevieve Flaspohler
 
 /*
@@ -30,18 +29,17 @@
 #define DEBUG
 #include <Ethernet.h>
 #include <SPI.h> // For SERIAL MONITOR
-//#include <OneWire.h> // FOR TEMPERATURE SENSOR
+#include <OneWire.h> // FOR TEMPERATURE SENSOR
 #include <avr/interrupt.h> // FOR HALL EFFECT
 
 
 // HALL EFFECT SENSOR GLOBAL VARS
 volatile int prevTime = 0;
 volatile int currTime = 0;
-volatile int count = 0;
 float rpm = 0.0;
 
 // TEMPERATURE SENSOR GLOBAL VARS
-//OneWire ds(6);  // on pin 9
+OneWire ds(9);  // on pin 9
 volatile float celsius = 0.0;
 
 // ANEMOMETER GLOBAL VARS
@@ -59,11 +57,11 @@ volatile float voltage = 0.0;
 EthernetClient client;
 byte mac[] = {  
   0x90, 0xA2, 0xDA, 0x10, 0x74, 0x23 };
-IPAddress ip(192,168,0,104);
+IPAddress ip(10,122,102,46);
 //char serverName [] = "northside2.aaps.k12.mi.us";
-char serverName [] = "192.168.0.102";
+char serverName [] = "10.122.102.45";
 // DELAY
-int interval = 4000; // wait 9 sec between dumps
+int interval = 20000; // wait 20 sec between dumps
 
 
 void setup() {
@@ -105,7 +103,7 @@ void loop() {
      
       //No need to call RPM; interrupt based
       
-      //postData();
+      postData();
             
       delay(interval);
 }
@@ -119,7 +117,8 @@ void postData() {
 #endif
     // Make a HTTP request:    
     
-    client.print(F("GET /windeng/add_data.php?windspeed="));
+    client.print(F("GET /add_data.php?windspeed="));
+    //client.print(F("GET test.php?windspeed="));
     client.print(windSpeed);
     client.print(F("&temperature="));
     client.print(celsius);
@@ -130,7 +129,7 @@ void postData() {
     rpm = 0.0;
     sei();
     
-    client.println(F("Host: northside2.aaps.k12.mi.us"));
+    client.println(F("Host: 10.122.102.45"));
     client.println(F("Connection: close"));
     client.println();   
     client.stop();
@@ -148,7 +147,6 @@ void postData() {
 
 void pin2ISR() {
   cli();
-  count++;
   //calculating RPS
   currTime = millis();
 
@@ -216,7 +214,7 @@ void read_voltage(void){
 
 
 void read_temperature(void) {
-
+/*
   int rawvoltage= analogRead(0);
   float volts= rawvoltage/205.0;
   float celsiustemp= 100.0 * volts - 50;
@@ -231,8 +229,8 @@ void read_temperature(void) {
   Serial.print("\tTemperature (F): ");
   Serial.println(fahrenheittemp-95);
 #endif
+*/
 
-/*
   int HighByte, LowByte, TReading, SignBit, Tc_100, Whole, Fract;   
   byte i;
   byte present = 0;
@@ -290,10 +288,12 @@ void read_temperature(void) {
     //Serial.print(data[i], HEX);
     //Serial.print(" ");
   }
+
+#ifdef DEBUG
   Serial.print(" CRC=");
   Serial.print( OneWire::crc8( data, 8), HEX);
   Serial.println();
-  
+#endif
   LowByte = data[0];
   HighByte = data[1];
   TReading = (HighByte << 8) + LowByte;
@@ -309,9 +309,10 @@ void read_temperature(void) {
 
   Whole = Tc_100 / 100;  // separate off the whole and fractional portions
   Fract = Tc_100 % 100;
-  
-  
 
+  celsius = Tc_100/100.0;
+  
+#ifdef DEBUG
   if (SignBit) // If its negative
   {
      Serial.print("-");
@@ -325,13 +326,11 @@ void read_temperature(void) {
   Serial.print(Fract);
 
   Serial.print("\n");
-  celsius = Whole;
-  
-  
+
   Serial.print("Celsius: "); 
-  Serial.print(Tc_100_d/100.00); 
+  Serial.print(celsius); 
   Serial.print('\n');
-  */
+#endif
 }
 
 
