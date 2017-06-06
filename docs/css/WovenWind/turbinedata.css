@@ -1,0 +1,51 @@
+.jumbotron { 
+	height: 500px ;
+	background-image: 
+	url("http://c1cleantechnicacom.wpengine.netdna-cdn.com/files/2014/04/wind-turbines17.jpg");
+	background-size: 1250px 1250px; 
+	background-repeat: no-repeat;
+	background-position: center;
+} 
+
+.intro-header {
+    padding-top: 100px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 50px;
+    color: black ;
+    text-align: left;
+    font-weight: bold;
+   	font-family: 'Shift', sans-serif; 
+   
+}
+
+
+
+.container p{ 
+	color#fff; 
+	font-size: 20px; 
+	text-align:left;
+}
+
+.jumbotron .container{ 
+	position: relative; 
+	top: 100px; 
+}
+
+.learn-more1 { 
+	
+	}
+.learn-more { 
+    background-color: #f7f7f7; 
+} 
+.learn-more h3{ 
+	font-family: 'Shift', sans-serif; 
+    font-size: 18px; 
+    font-weight: bold; 
+}
+
+.learn-more a{ 
+    color:#00b0ff; 
+} 
+
+.bottom { 
+	background-color: #f7f7f7;
+}
